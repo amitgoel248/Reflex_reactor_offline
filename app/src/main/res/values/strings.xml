@@ -1,0 +1,9 @@
+<resources xmlns:xliff="http://schemas.android.com/tools">
+    <string name="app_name">Reflex Reactor</string>
+    <string name="button_multiplayer">MultiPlayer</string>
+    <string name="button_help">Help</string>
+    <string name="button_stats">Stats</string>
+    <string name="button_soloplayer">SoloPlayer</string>
+    <string name="page_title">Page no <xliff:g id="step_number">%1$d</xliff:g>: Lorem
+        Ipsum</string>
+</resources>
