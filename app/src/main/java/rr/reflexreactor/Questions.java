@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class Questions extends Activity {
 
@@ -29,6 +33,7 @@ public class Questions extends Activity {
     MyDatabaseAdapter dbasehelper;
     MyDatabaseAdapter.MyHelper helper;
     CountDownTimer cTimer;
+    String game_id,mode;
 
     String correct;
     Button optnA,optnB,optnC,optnD,reset,submit;
@@ -56,6 +61,10 @@ public class Questions extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         cTimer.cancel();
+                        Intent intent = new Intent(Questions.this, Mode.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("Exit me", true);
+                        startActivity(intent);
                         finish();
                     }
 
@@ -72,6 +81,10 @@ public class Questions extends Activity {
         setContentView(R.layout.activity_questions);
         tv = (TextView)findViewById(R.id.My_question);
         selected_optn = (TextView)findViewById(R.id.selected_option);
+        Intent intent_for_game_id = getIntent();
+        intent_for_game_id.getExtras();
+        game_id = intent_for_game_id.getStringExtra("game_id");
+        mode = intent_for_game_id.getStringExtra("mode");
         reset = (Button)findViewById(R.id.reset);
         submit = (Button)findViewById(R.id.submit);
         show_correct = (TextView)findViewById(R.id.show_correct);
@@ -79,6 +92,7 @@ public class Questions extends Activity {
 
         BufferedReader br = null;
         String response = null;
+
 
         try {
 
@@ -201,10 +215,25 @@ public class Questions extends Activity {
         if (p == 10) {
             p++;
             cTimer.cancel();
-            Intent intent = new Intent(this, Score_board_solo.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("final_score",final_score);
-            startActivity(intent);
+
+            String online_mode = "online_from_send_request";
+            if(mode.equals(online_mode))
+            {
+                Intent intent = new Intent(this, scoreboard2.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("game_id",game_id);
+                intent.putExtra("mode",mode);
+                intent.putExtra("final_score",final_score);
+                startActivity(intent);
+            }
+            else
+            {
+                Intent intent = new Intent(this, Score_board_solo.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("final_score",final_score);
+                startActivity(intent);
+            }
+
         } else if (p < 10) {
 
             selected_optn.setText("");
@@ -314,6 +343,11 @@ public class Questions extends Activity {
             dummy_value = dummy_value + (dummy_value*((time_value/1000)-Time_passed))/(time_value/1000);
             final_score+=dummy_value;
             show_correct.setText("Correct Ans : "+correct+ " You Get " + dummy_value);
+            String solo= "solo_play";
+            if(mode.equals(solo))
+            {
+                dont_store_next_question_without_view();
+            }
         }
         else
         {

@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Level_catagory extends FragmentActivity {
@@ -42,6 +43,10 @@ public class Level_catagory extends FragmentActivity {
     String catagory_list[] = new String[15];
     int my_level=0;
     String mode;
+    ArrayList<String> User_id;
+    String[] user_names;
+    int[] Category_id;
+    int[] question_indexes;
 
     private static final int num_pages2=2;
     private ViewPager pager2;
@@ -59,9 +64,13 @@ public class Level_catagory extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_level_catagory);
+        Category_id = new int[20];
+        question_indexes = new int[20];
         prev_intent = getIntent();
         prev_intent.getExtras();
         mode = prev_intent.getStringExtra("mode");
+        User_id = prev_intent.getStringArrayListExtra("user_id");
+        user_names=prev_intent.getStringArrayExtra("user_names");
 
         if(mode==null) mode="multi_play";
 
@@ -141,20 +150,25 @@ public class Level_catagory extends FragmentActivity {
             //  bw.write(s);
             Random random = new Random();
             int foo = random.nextInt(4)+1;
+            my_level=foo;
             bw.write(foo + " ");
             foo = random.nextInt(10)+1;
             number_of_catagories=foo;
             bw.append(foo + " ");
             String foo_list[] = {"GEOGRAPHY","SPORTS","MYTHOLOGY","CRICKET","POLITICS","HISTORY","FOOD","MUSIC","SCIENCE","CULTURE"};
             for (int i = 0; i < foo; i++) {
-                bw.append(foo_list[random.nextInt(10)] + " ");
+                int aa = random.nextInt(10);
+                catagory_list[i]=foo_list[aa];
+                bw.append(foo_list[aa] + " ");
             }
             for (int i = 0; i < 10; i++) {
                 int value = random.nextInt(number_of_catagories);
+                Category_id[i]=value;
                 bw.append(value + " ");
             }
             for (int i = 0; i < 10; i++) {
                 int value = random.nextInt(4) + 1;
+                question_indexes[i]=value;
                 bw.append(value + " ");
             }
             bw.close();
@@ -168,8 +182,23 @@ public class Level_catagory extends FragmentActivity {
         if(!mode.equals(x))
         sendFile();
 
-        Intent intent = new Intent(this, Questions.class);
-        startActivity(intent);
+        String y = "online";
+        if(mode.equals(y))
+        {
+         Intent intent = new Intent(this,Send_Request_Activity.class);
+            intent.putExtra("idx",number_of_catagories);
+            intent.putExtra("user_id",User_id);
+            intent.putExtra("user_names",user_names);
+            intent.putExtra("level",my_level);
+            intent.putExtra("catagories",catagory_list);
+            intent.putExtra("catagories_id",Category_id);
+            intent.putExtra("question_indexes",question_indexes);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, Questions.class);
+            startActivity(intent);
+        }
     }
     // Create a file randomly from choosen catagories with 10 questions
     public void start_game(View view) throws IOException {
@@ -198,10 +227,12 @@ public class Level_catagory extends FragmentActivity {
                 }
                 for (int i = 0; i < 10; i++) {
                     int value = random.nextInt(number_of_catagories);
+                    Category_id[i]=value;
                     bw.append(value + " ");
                 }
                 for (int i = 0; i < 10; i++) {
                     int value = random.nextInt(4) + 1;
+                    question_indexes[i]=value;
                     bw.append(value + " ");
                 }
                 bw.close();
@@ -216,8 +247,24 @@ public class Level_catagory extends FragmentActivity {
             if(!mode.equals(x))
             sendFile();
 
-            Intent intent = new Intent(this, Questions.class);
-            startActivity(intent);
+            String y = "online";
+            if(mode.equals(y))
+            {
+                Intent intent = new Intent(this,Send_Request_Activity.class);
+                intent.putExtra("idx",number_of_catagories);
+                intent.putExtra("user_id",User_id);
+                intent.putExtra("user_names",user_names);
+                intent.putExtra("level",my_level);
+                intent.putExtra("catagories",catagory_list);
+                intent.putExtra("catagories_id",Category_id);
+                intent.putExtra("question_indexes",question_indexes);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(this, Questions.class);
+                intent.putExtra("mode","solo_play");
+                startActivity(intent);
+            }
         }
     }
 

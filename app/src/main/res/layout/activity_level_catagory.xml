@@ -143,7 +143,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CATAGORIES"
+                android:text="CATEGORIES"
                 android:textSize="22dp"
                 android:gravity="center"
                 android:textColor="#FFD32F2F"/>

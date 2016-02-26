@@ -42,5 +42,8 @@ public class Offline_Online extends Activity {
     }
 
     public void online_play(View view) {
+        Intent intent_my = new Intent(this,OnlineListActivity.class);
+        intent_my.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent_my);
     }
 }

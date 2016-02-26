@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -26,5 +27,10 @@ public class Score_board_solo extends Activity {
         intent.getExtras();
         score = (TextView)findViewById(R.id.score_final);
         score.setText("Your Score " + intent.getIntExtra("final_score",0));
+    }
+
+    public void answers(View view) {
+        Intent intent = new Intent(this, Answers.class);
+        startActivity(intent);
     }
 }

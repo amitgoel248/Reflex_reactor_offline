@@ -7,24 +7,25 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="rr.reflexreactor.Score_board_solo">
+    tools:context="rr.reflexreactor.Dekh_lo_answer">
 
     <TextView
-        android:id="@+id/score_final"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textSize="40dp"
-        android:textColor="#FFD32F2F"/>
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/My_question_ans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="See Answers"
-        style="@style/button"
-        android:onClick="answers"
-        />
+        android:gravity="center"
+        android:textColor="#FFD32F2F"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_below="@+id/My_question_ans"
+        android:id="@+id/correct_ans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#FFD32F2F"
+        android:textSize="20dp" />
 
 </RelativeLayout>
